@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="emerald">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindCare</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom CSS Animations */
+    @keyframes logo-fade-in-scale {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-logo-fade-in-scale {
+      animation: logo-fade-in-scale 0.8s ease-out forwards;
+    }
+    @keyframes text-fade-in-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-text-fade-in-up {
+      animation: text-fade-in-up 0.8s ease-out 0.3s forwards;
+      opacity: 0; /* Start hidden */
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.5s ease-out 0.5s forwards;
+      opacity: 0;
+    }
+
+    /* New Voice Visualizer Orb Animation */
+    @keyframes orb-pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.6; }
+    }
+    @keyframes orb-rings-listening {
+      0% { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+    @keyframes orb-thinking {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .orb-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .orb-pulse {
+      animation: orb-pulse 2s ease-in-out infinite;
+    }
+    .orb-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid hsl(var(--p));
+      opacity: 0;
+    }
+    .orb-rings-listening .orb-ring-1 { animation: orb-rings-listening 2s ease-out infinite; }
+    .orb-rings-listening .orb-ring-2 { animation: orb-rings-listening 2s ease-out 0.5s infinite; }
+    .orb-rings-listening .orb-ring-3 { animation: orb-rings-listening 2s ease-out 1s infinite; }
+    .orb-thinking-gradient {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 0deg,
+          hsl(var(--p) / 0.8),
+          hsl(var(--s) / 0.8),
+          hsl(var(--p) / 0.8)
+        );
+        animation: orb-thinking 1.5s linear infinite;
+    }
+    
+    /* Custom Journal Patterns */
+    .pattern-dots {
+      background-image: radial-gradient(hsl(var(--bc) / 0.2) 1px, transparent 1px);
+      background-size: 10px 10px;
+    }
+    .pattern-lines {
+      background-image: linear-gradient(hsl(var(--bc) / 0.1) 1px, transparent 1px);
+      background-size: 100% 20px;
+    }
+    .pattern-zigzag {
+        background:
+            linear-gradient(135deg, hsl(var(--bc) / 0.1) 25%, transparent 25%) -50px 0,
+            linear-gradient(225deg, hsl(var(--bc) / 0.1) 25%, transparent 25%) -50px 0,
+            linear-gradient(315deg, hsl(var(--bc) / 0.1) 25%, transparent 25%),
+            linear-gradient(45deg, hsl(var(--bc) / 0.1) 25%, transparent 25%);
+        background-size: 20px 20px;
+    }
+
+  </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-base-200">
+  <div id="root"></div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://aistudiocdn.com/react@^19.1.1",
+      "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+      "react/": "https://aistudiocdn.com/react@^19.1.1/",
+      "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
+      "recharts": "https://aistudiocdn.com/recharts@^3.2.1"
+    }
+  }
+  </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

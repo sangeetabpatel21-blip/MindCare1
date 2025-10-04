@@ -1,0 +1,7 @@
+{
+  "name": "MindCare",
+  "description": "A comprehensive mental healthcare platform for patients and specialists, featuring AI-powered tools for support, communication, and care management.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
