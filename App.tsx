@@ -107,7 +107,7 @@ const App: React.FC = () => {
 
     return (
         <AppProvider>
-            <div className="h-full font-sans antialiased">
+            <div className="min-h-screen font-sans antialiased flex flex-col">
                 {renderAppContent()}
                 <ToastContainer />
             </div>
