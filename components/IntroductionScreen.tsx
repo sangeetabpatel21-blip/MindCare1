@@ -55,7 +55,7 @@ const SpecialistIntro: React.FC = () => (
 
 const IntroductionScreen: React.FC<IntroductionScreenProps> = ({ role, onContinue }) => {
   return (
-    <div className="flex flex-col h-full bg-base-100 p-8 text-center justify-between">
+    <div className="min-h-screen flex flex-col bg-base-100 p-8 text-center justify-between">
       <div className="flex-grow flex flex-col items-center justify-center">
         <Logo className="w-20 h-20 mb-6" iconOnly />
         {role === UserRole.Seeker ? <SeekerIntro /> : <SpecialistIntro />}
