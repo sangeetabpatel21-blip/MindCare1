@@ -25,7 +25,7 @@ const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({ onSelectRole 
   );
 
   return (
-    <div className="flex flex-col items-center justify-between h-full bg-base-100 p-8 text-center">
+    <div className="flex flex-col items-center justify-between min-h-screen bg-base-100 p-8 text-center">
       <div className="flex-grow flex flex-col items-center justify-center space-y-4">
         <Logo className="mb-4" />
         <h2 className="text-2xl font-bold text-neutral">Join MindCare</h2>
