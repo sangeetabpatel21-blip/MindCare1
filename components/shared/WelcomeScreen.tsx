@@ -9,7 +9,7 @@ interface WelcomeScreenProps {
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onFinish }) => {
     return (
         <div 
-            className="flex flex-col items-center justify-center h-full bg-base-100 cursor-pointer"
+            className="flex flex-col items-center justify-center min-h-screen bg-base-100 cursor-pointer"
             onClick={onFinish}
             aria-label="Welcome to MindCare, tap to continue"
             role="button"
