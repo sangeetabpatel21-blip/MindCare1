@@ -70,7 +70,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ role, onComplete })
     };
     
     return (
-        <div className="flex flex-col h-full bg-base-100 p-8 text-center justify-between">
+        <div className="flex flex-col min-h-screen bg-base-100 p-8 text-center justify-between">
             <div className="flex-grow flex flex-col items-center justify-center animate-text-fade-in-up">
                 <div className="mb-8">{currentStep.icon}</div>
                 <h2 className="text-3xl font-bold text-neutral mb-3">{currentStep.title}</h2>
