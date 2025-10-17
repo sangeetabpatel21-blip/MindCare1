@@ -16,7 +16,7 @@ const PrototypeFeedbackCard: React.FC = () => {
             This application is a prototype designed to explore the future of mental healthcare. We are actively seeking feedback and suggestions from specialists and individuals with lived experience to help us build a truly impactful tool.
           </p>
           <a 
-            href="mailto:feedback@MindCare.com?subject=MindCare%20Prototype%20Feedback" 
+            href="mailto:feedback2mindcare@gmail.com?subject=MindCare%20Prototype%20Feedback" 
             className="btn btn-sm btn-info mt-3 text-white normal-case"
           >
             Share Your Feedback &amp; Suggestions
