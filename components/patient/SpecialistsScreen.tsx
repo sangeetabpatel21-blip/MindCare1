@@ -1,3 +1,5 @@
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import React, { useState, useMemo, useEffect } from 'react';
 import { ICONS } from '../../constants';
 import { Specialist, SpecialistFilters } from '../../types';
@@ -129,7 +131,11 @@ const SpecialistsScreen: React.FC<SpecialistsScreenProps> = ({ initialFilters, o
     };
 
     if (isLoading) {
-        return <div className="flex justify-center items-center h-full"><span className="loading loading-spinner loading-lg"></span></div>;
+  return (
+    <div style={{ minHeight: '350px', width: '100%' }}>
+      <Skeleton height={120} count={3} style={{ marginBottom: 10 }} />
+    </div>
+  );
     }
     
     // This view is for showing the detail page of a *non-primary* specialist from the list
