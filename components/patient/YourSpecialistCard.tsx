@@ -25,7 +25,8 @@ const YourSpecialistCard: React.FC<YourSpecialistCardProps> = ({ specialist, onN
         <Card className="mb-4 bg-gradient-to-br from-indigo-50 to-purple-50">
             <h2 className="text-lg font-bold text-neutral mb-3">Your Specialist</h2>
             <div className="flex space-x-4 items-start">
-                <img src={specialist.avatarUrl} alt={specialist.name} className="w-16 h-16 rounded-full flex-shrink-0" />
+                <img
+  src={specialist.avatarUrl}alt={specialist.name}className="w-16 h-16 rounded-full flex-shrink-0"style={{ objectFit: 'cover' }}/>
                 <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-lg text-neutral truncate">{specialist.name}</h3>
                     <p className="text-sm text-gray-600 truncate">{specialist.title}</p>
