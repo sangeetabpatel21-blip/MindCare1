@@ -1,8 +1,6 @@
-
-
-
-
-import React, { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import React, { useState, useEffect } from 'react';
 // FIX: Corrected import path for local module.
 import { MOCK_APPOINTMENTS } from '../../constants';
 import Card from '../shared/Card';
@@ -40,7 +38,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, onReview
     return (
         <Card className={`mb-4 ${opacity}`}>
             <div className="flex items-center space-x-4">
-                <img src={appointment.specialist.avatarUrl} alt={appointment.specialist.name} className="w-12 h-12 rounded-full" />
+                <img src={appointment.specialist.avatarUrl} alt={appointment.specialist.name} className="w-12 h-12 rounded-full" style={{objectFit: 'cover'}} />
                 <div className="flex-1">
                     <p className="font-bold text-neutral">{appointment.specialist.name}</p>
                     <p className="text-sm text-gray-500">{appointment.date} at {appointment.time}</p>
@@ -62,7 +60,15 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment, onReview
 const AppointmentsScreen: React.FC = () => {
     const { appointments, confirmAppointmentByPayment } = useAppContext();
     const [reviewingAppointment, setReviewingAppointment] = useState<Appointment | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     
+    // Simulate loading delay or listen real async fetch:
+    useEffect(() => {
+        if(appointments.length > 0) {
+            setIsLoading(false);
+        }
+    }, [appointments]);
+
     // Sort all appointments and requests together by date
     const sortedAppointments = [...appointments].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -73,6 +79,14 @@ const AppointmentsScreen: React.FC = () => {
     const handlePay = (appointmentId: string) => {
         confirmAppointmentByPayment(appointmentId);
     };
+
+    if (isLoading) {
+        return (
+            <div style={{ minHeight: '350px', width: '100%' }}>
+                <Skeleton height={120} count={3} style={{ marginBottom: 10 }} />
+            </div>
+        );
+    }
 
     return (
         <div className="p-4">
