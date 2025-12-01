@@ -108,7 +108,9 @@ const PatientApp: React.FC<PatientAppProps> = ({ onLogout, onEndPreview }) => {
               </div>
             }
         />
-      <main className="flex-grow overflow-y-auto">
+      <main className="flex-grow overflow-y-auto"
+        style={{ minHeight: '350px' }}
+        >
         {renderScreen()}
       </main>
       <BottomNav
