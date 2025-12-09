@@ -12,8 +12,6 @@ type AuthStep = 'role_selection' | 'auth_choice' | 'onboarding';
 
 interface AuthChoiceScreenProps {
   role: UserRole | null;
-  onEmailSubmit: () => void;
-  onAnonymousSubmit: () => void;
   onCreateAccount: () => void;
   onGoogleClick: () => void;
   isSubmitting: boolean;
@@ -22,8 +20,6 @@ interface AuthChoiceScreenProps {
 
 const AuthChoiceScreen: React.FC<AuthChoiceScreenProps> = ({
   role,
-  onEmailSubmit,
-  onAnonymousSubmit,
   onCreateAccount,
   onGoogleClick,
   isSubmitting,
@@ -40,8 +36,9 @@ const AuthChoiceScreen: React.FC<AuthChoiceScreenProps> = ({
           Welcome {role ? `, ${roleLabel}` : ''}
         </h2>
         <p className="text-gray-500 text-sm">
-          Choose how you would like to continue. You can use Google, email, or a
-          nickname while we keep your details private.
+          Choose how you would like to continue. You can use Google or email. If
+          you are a seeker, you can also use a nickname while we keep your
+          details private.
         </p>
 
         {/* Continue with Google */}
@@ -59,8 +56,6 @@ const AuthChoiceScreen: React.FC<AuthChoiceScreenProps> = ({
           <span className="px-2 text-xs text-gray-400">or</span>
           <div className="flex-grow h-px bg-gray-300" />
         </div>
-
-        {/* Email and Anonymous sections are rendered below via fixed panel */}
       </div>
 
       <div className="flex-shrink-0 pt-4 pb-2 w-full max-w-md">
@@ -124,7 +119,8 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
             email,
             password,
             name: displayName,
-            phone
+            phone,
+            role: role === UserRole.Specialist ? 'mhs' : 'seeker'
           })
         }
       );
@@ -148,6 +144,12 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
   const callAnonymousBackend = async () => {
     if (!role) {
       setError('Please select a role first');
+      return;
+    }
+
+    // Anonymous is only allowed for Seekers
+    if (role === UserRole.Specialist) {
+      setError('Anonymous mode is only available for seekers.');
       return;
     }
 
@@ -192,7 +194,6 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
   };
 
   const handleGoogleClick = () => {
-    // Placeholder for now; just show message
     setError('Google sign‑in will be available soon.');
   };
 
@@ -205,20 +206,20 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
       <>
         <AuthChoiceScreen
           role={role}
-          onEmailSubmit={callEmailBackend}
-          onAnonymousSubmit={callAnonymousBackend}
           onCreateAccount={handleCreateAccount}
           onGoogleClick={handleGoogleClick}
           isSubmitting={isSubmitting}
           error={error}
         />
 
-        {/* Bottom sheet with email + anonymous forms */}
+        {/* Bottom sheet with email (+ optional anonymous for seekers) */}
         <div className="fixed bottom-0 left-0 right-0 bg-base-100 border-t border-gray-200 p-4 space-y-4">
           {/* Continue with email */}
           <div>
             <h3 className="text-sm font-semibold text-left mb-2">
-              Continue with email
+              {role === UserRole.Specialist
+                ? 'Specialist sign in / sign up'
+                : 'Continue with email'}
             </h3>
             <div className="mb-2">
               <input
@@ -240,7 +241,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
             <div className="mb-2">
               <input
                 className="input input-bordered w-full"
-                placeholder="Name or nickname"
+                placeholder={
+                  role === UserRole.Specialist ? 'Full name' : 'Name or nickname'
+                }
                 value={displayName}
                 onChange={e => setDisplayName(e.target.value)}
               />
@@ -259,50 +262,56 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
               className="w-full btn btn-primary mt-1"
               disabled={isSubmitting}
             >
-              Continue with email
+              {role === UserRole.Specialist
+                ? 'Continue as specialist'
+                : 'Continue with email'}
             </button>
           </div>
 
           {/* Divider */}
-          <div className="flex items-center w-full">
-            <div className="flex-grow h-px bg-gray-300" />
-            <span className="px-2 text-xs text-gray-400">or</span>
-            <div className="flex-grow h-px bg-gray-300" />
-          </div>
+          {role === UserRole.Seeker && (
+            <>
+              <div className="flex items-center w-full">
+                <div className="flex-grow h-px bg-gray-300" />
+                <span className="px-2 text-xs text-gray-400">or</span>
+                <div className="flex-grow h-px bg-gray-300" />
+              </div>
 
-          {/* Anonymous but contactable */}
-          <div>
-            <h3 className="text-sm font-semibold text-left mb-2">
-              Continue with nickname (anonymous)
-            </h3>
-            <div className="mb-2">
-              <input
-                className="input input-bordered w-full"
-                placeholder="Phone number (India)"
-                value={anonPhone}
-                onChange={e => setAnonPhone(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <input
-                className="input input-bordered w-full"
-                placeholder="Nickname"
-                value={anonNickname}
-                onChange={e => setAnonNickname(e.target.value)}
-              />
-            </div>
-            <p className="text-[10px] text-left text-gray-500 mb-2">
-              Your phone number stays private. It is only used for safety alerts
-              and important messages, never shown to others.
-            </p>
-            <button
-              onClick={callAnonymousBackend}
-              className="w-full btn btn-secondary btn-outline"
-              disabled={isSubmitting}
-            >
-              Continue with nickname
-            </button>
-          </div>
+              {/* Anonymous but contactable – seekers only */}
+              <div>
+                <h3 className="text-sm font-semibold text-left mb-2">
+                  Continue with nickname (anonymous)
+                </h3>
+                <div className="mb-2">
+                  <input
+                    className="input input-bordered w-full"
+                    placeholder="Phone number (India)"
+                    value={anonPhone}
+                    onChange={e => setAnonPhone(e.target.value)}
+                  />
+                </div>
+                <div className="mb-1">
+                  <input
+                    className="input input-bordered w-full"
+                    placeholder="Nickname"
+                    value={anonNickname}
+                    onChange={e => setAnonNickname(e.target.value)}
+                  />
+                </div>
+                <p className="text-[10px] text-left text-gray-500 mb-2">
+                  Your phone number stays private. It is only used for safety
+                  alerts and important messages, never shown to others.
+                </p>
+                <button
+                  onClick={callAnonymousBackend}
+                  className="w-full btn btn-secondary btn-outline"
+                  disabled={isSubmitting}
+                >
+                  Continue with nickname
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </>
     );
@@ -312,7 +321,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
     if (!role) {
       return <RoleSelectionScreen onSelectRole={handleRoleSelect} />;
     }
-    return <OnboardingScreen role={role} onComplete={handleOnboardingComplete} />;
+    return (
+      <OnboardingScreen role={role} onComplete={handleOnboardingComplete} />
+    );
   }
 
   return <RoleSelectionScreen onSelectRole={handleRoleSelect} />;
